@@ -44,11 +44,23 @@ namespace {
         press_sprite.set_blending_enabled(true);
         bn::sprite_ptr start_sprite = bn::sprite_items::start.create_sprite(32, 70);
         start_sprite.set_blending_enabled(true);
+        bool fade_in = true;
 
         while (! bn::keypad::start_pressed()) {
             bn::blending::set_transparency_alpha(alpha);
-            if (alpha < 1) {
-                alpha = alpha + .01;
+            if (fade_in) {
+                if (alpha < 1) {
+                    alpha = alpha + .01;
+                } else {
+                    fade_in = false;
+                }
+                
+            } else {
+                if (alpha > 0) {
+                    alpha = alpha - .01;
+                } else {
+                    fade_in = true;
+                }
             }
             
             bn::core::update();
